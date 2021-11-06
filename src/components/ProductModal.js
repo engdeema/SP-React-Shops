@@ -1,8 +1,10 @@
 import { Button, InputGroup, FormControl, Modal } from "react-bootstrap";
 import { useState } from "react";
-import productStore from "../stores/productStore";
+import shopStore from "../stores/shopStore";
+// import productStore from "../stores/productStore";
 
-function ProductModal() {
+//اهوا اللي راح يسوي كرييت حق البرودكت مالي
+function ProductModal({ shopId }) {
   const [show, setShow] = useState(false);
   const [product, setProduct] = useState({
     name: "",
@@ -24,7 +26,14 @@ function ProductModal() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    productStore.createProduct(product);
+    // productStore.createProduct(product);
+    // اهيا الكرييت تاخذ آي دي الشوب والبرودكت اليديد
+    //كرييت بتن داخل اللست ، اللست
+    // داخل الشوب ديتيل ، ف البتن يخص الشوب فقط وليس كل الشوبس
+    // المودال نناديها داخل اللست
+    // اللست نناديها بالديتيل
+    // راح اطرش الآيدي الشوب عن طريق برودكت مودال الحفيده
+    shopStore.createProduct(shopId, product);
     handleClose();
   };
 

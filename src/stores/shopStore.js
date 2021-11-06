@@ -26,11 +26,32 @@ class ShopStore {
 
   fetchShops = async () => {
     try {
-      const response = await instance.get("/products");
+      const response = await instance.get("/shops");
       this.shops = response.data;
     } catch (error) {
       console.log("ShopStore -> fetchShops -> error", error);
     }
+  };
+  // shopId موجوده بالurl
+  // لان اذا بسوي كرييت برودكت باليوار ال تكون موجوده
+  // وانا قاعده اسوي برودكت ف هم احطه يمه
+  // i will send the product to the backend
+  // واهوا ياي ك فورمداتا ف لازم احول البرودكت حق فورمداتا
+  createProduct = async (shopId, product) => {
+    try {
+      // check postman because the req will be there
+      const formData = new FormData();
+      //فورمداتا تاخذ ابند عشان تشتغل والابند تاخد كي و فاليو
+      // الفاليو جنها برودكت.نيم
+      // key = product.name, .image اي شي من الباكند
+      for (const key in product) {
+        formData.append(key, product[key]);
+      }
+
+      const res = await instance.post(`/shops/${shopId}/products`, formData);
+      const shop = this.shops.find((shop) => shop._id === shopId);
+      shop.products.push(res.data);
+    } catch (error) {}
   };
 }
 
